@@ -7,7 +7,9 @@ import lombok.Data;
 @Builder
 public class PowerItem {
 
-    private String name;
+    private String brand;
+    private String model;
+    private String type;
     private int capacity;
 
 }
