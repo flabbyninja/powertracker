@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableEncryptableProperties
-public class PowertrackerApplication {
+public class PowerTrackerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PowertrackerApplication.class, args);
+        SpringApplication.run(PowerTrackerApplication.class, args);
     }
 
 }

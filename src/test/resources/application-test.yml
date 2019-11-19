@@ -1,6 +1,6 @@
 credentials:
   clear: test_clear_value
-  enc: ENC(oQ/wmXD5bGiRLlVAlUXWD//3Ae7brpKLV5zfdBS3HTk=)
+  enc: ENC(j/fgvUFXFvpftC5t3iPK6ERUGxv0QppUZNjktxXgP5I=)
 
 jasypt:
   encryptor:
