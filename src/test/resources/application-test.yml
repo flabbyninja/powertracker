@@ -1,0 +1,7 @@
+credentials:
+  clear: test_clear_value
+  enc: ENC(015xsE4ll/TLAVQclEWKKw==)
+
+jasypt:
+  encryptor:
+    password: test

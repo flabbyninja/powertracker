@@ -1,6 +1,8 @@
 spring:
   application:
     name: powertracker
+  profiles:
+    active: @activatedProperties@
 
 logging:
   level:
