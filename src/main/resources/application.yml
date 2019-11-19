@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: powertracker
+
+logging:
+  level:
+    root: INFO
+    com.flabbyninja.powertracker: DEBUG
+
+credentials:
+  clear: PropertyInClear
+  enc: ENC(015xsE4ll/TLAVQclEWKKw==)

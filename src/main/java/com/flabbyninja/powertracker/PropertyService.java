@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 @Getter
 public class PropertyService {
 
-    @Value("${test.value}")
+    @Value("${credentials.clear}")
     private String property;
 
-    @Value("${test.enc_value}")
+    @Value("${credentials.enc}")
     private String encProperty;
 }
