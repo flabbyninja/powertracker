@@ -13,6 +13,10 @@ spring:
   h2:
     console:
       enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
 
 logging:
   level:
@@ -22,3 +26,5 @@ logging:
 credentials:
   clear: PropertyInClear
   enc: ENC(015xsE4ll/TLAVQclEWKKw==)
+
+
