@@ -19,9 +19,5 @@ logging:
     com.flabbyninja.powertracker: DEBUG
 
 credentials:
-  clear: test_clear_value
-  enc: ENC(j/fgvUFXFvpftC5t3iPK6ERUGxv0QppUZNjktxXgP5I=)
-
-jasypt:
-  encryptor:
-    password: test
+  clear: PropertyInClear
+  enc: ENC(015xsE4ll/TLAVQclEWKKw==)
