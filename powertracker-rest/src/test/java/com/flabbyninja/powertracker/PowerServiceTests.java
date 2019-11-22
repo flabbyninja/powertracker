@@ -24,9 +24,15 @@ class PowerServiceTests {
 
     @BeforeEach
     void setUp() {
-        PowerItem testItem = new PowerItem("TestBrand", "SocialPower", "PP9", "NiCad", 4000L, false, "TestRoom");
-        Mockito.when(powerRepo.findByBrand(testItem.getBrand()))
-                .thenReturn(Lists.newArrayList(testItem));
+        PowerItem testItem1 = new PowerItem("TestBrand", "SocialPower", "AA", "NiCad", 4000L, false, "TestRoom");
+        PowerItem testItem2 = new PowerItem("TestBrand", "SocialPower", "AAA", "NiCad", 4000L, false, "TestRoom");
+        PowerItem testItem3 = new PowerItem("TestBrand", "SocialPower", "PP9", "NiCad", 4000L, false, "TestRoom");
+
+        Mockito.when(powerRepo.findByBrand(testItem1.getBrand()))
+                .thenReturn(Lists.newArrayList(testItem1));
+
+        Mockito.when(powerRepo.countEntities())
+                .thenReturn(3);
     }
 
     @Test
@@ -44,7 +50,7 @@ class PowerServiceTests {
 
     @Test
     void checkStock() {
-        assertThat(powerService.checkStock()).isNotNull();
+        assertThat(powerService.checkStock()).isEqualTo(3);
     }
 
     @Test

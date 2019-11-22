@@ -35,8 +35,8 @@ public class PowerService {
     }
 
     @RequestMapping("/stock")
-    public String checkStock() {
-        return null;
+    public int checkStock() {
+        return powerRepo.countEntities();
     }
 
     @RequestMapping("/allocate")
