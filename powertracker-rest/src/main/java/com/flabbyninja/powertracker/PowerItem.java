@@ -21,7 +21,7 @@ public class PowerItem {
     private boolean available;
     private String location;
 
-    protected PowerItem() {};
+    protected PowerItem() {}
 
     public PowerItem(String brand, String model, String powerSize, String powerType, Long capacity, boolean available, String location) {
         this.brand = brand;

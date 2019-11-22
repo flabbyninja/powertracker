@@ -1,7 +1,6 @@
 package com.flabbyninja.powertracker;
 
 import org.assertj.core.util.Lists;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -10,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -25,7 +23,7 @@ class PowerServiceTests {
     private PowerItemRepository powerRepo;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         PowerItem testItem = new PowerItem("TestBrand", "SocialPower", "PP9", "NiCad", 4000L, false, "TestRoom");
         Mockito.when(powerRepo.findByBrand(testItem.getBrand()))
                 .thenReturn(Lists.newArrayList(testItem));

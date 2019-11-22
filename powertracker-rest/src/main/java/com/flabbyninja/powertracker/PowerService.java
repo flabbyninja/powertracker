@@ -14,15 +14,12 @@ public class PowerService {
 
     private final PowerItemRepository powerRepo;
 
-    private final PropertyService propertyService;
-
     public PowerService(PropertyService propertyService, PowerItemRepository powerRepo) {
-        this.propertyService = propertyService;
         this.powerRepo = powerRepo;
     }
 
     @GetMapping("/item/{itemId}")
-    public PowerItem getItem(@PathVariable(required=true, value="itemId") Long itemId) {
+    public PowerItem getItem(@PathVariable(value="itemId") Long itemId) {
         LOGGER.debug("About to request details of power item with id: " + itemId);
         Optional<PowerItem> returnValue = powerRepo.findById(4L);
         LOGGER.debug("Retrieved item successfully: " + returnValue);
@@ -30,7 +27,7 @@ public class PowerService {
     }
 
     @GetMapping("/brand/{brandName}")
-    public List<PowerItem> getBrand(@PathVariable(required=true, value="brandName") String brandName) {
+    public List<PowerItem> getBrand(@PathVariable(value="brandName") String brandName) {
         LOGGER.debug("About to lookup by brand: " + brandName);
         List<PowerItem> returnedItems = powerRepo.findByBrand(brandName);
         LOGGER.debug("Service returned " + returnedItems.size() + " items.");
