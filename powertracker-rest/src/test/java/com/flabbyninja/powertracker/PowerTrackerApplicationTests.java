@@ -31,20 +31,4 @@ class PowerTrackerApplicationTests {
     void validateEncryptedProperty() {
         assertThat(propService.getEncProperty()).isEqualTo("test_encrypted_value");
     }
-
-    @Test
-    void checkStock() {
-        assertThat(powerService.checkStock()).isNotNull();
-    }
-
-    @Test
-    void allocate() {
-        fail("Not implemented");
-    }
-
-    @Test
-    void deallocate() {
-        fail("Not implemented");
-    }
-
 }

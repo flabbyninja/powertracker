@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -28,6 +29,14 @@ public class PowerService {
         return null;
     }
 
+    @GetMapping("/brand/{brandName}")
+    public List<PowerItem> getBrand(@PathVariable(required=true, value="brandName") String brandName) {
+        LOGGER.debug("About to lookup by brand: " + brandName);
+        List<PowerItem> returnedItems = powerRepo.findByBrand(brandName);
+        LOGGER.debug("Service returned " + returnedItems.size() + " items.");
+        return returnedItems;
+    }
+
     @RequestMapping("/stock")
     public String checkStock() {
         return null;
@@ -41,17 +50,5 @@ public class PowerService {
     @RequestMapping("/deallocate")
     public void deallocate() {
 
-    }
-
-    @RequestMapping("/testrepo")
-    public void testRepo() {
-        System.out.println("\nfindAll()");
-        powerRepo.findAll().forEach(x -> System.out.println(x));
-
-        System.out.println("\nfindById(1L)");
-        powerRepo.findById(2L).ifPresent(x -> System.out.println(x));
-
-        System.out.println("\nfindByBrand('Worzel')");
-        powerRepo.findByBrand("Worzel").forEach(x -> System.out.println(x));
     }
 }
