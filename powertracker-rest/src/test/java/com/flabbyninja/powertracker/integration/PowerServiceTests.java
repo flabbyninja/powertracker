@@ -13,10 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
@@ -29,12 +29,16 @@ class PowerServiceTests {
     private PowerItemRepository powerRepo;
 
     // Reference test values
-    private static final PowerItem testItem1 = new PowerItem("TestBrand", "SocialPower", "AA", "NiCad", 4000L, true, "TestRoom");
-    private static final PowerItem testItem2 = new PowerItem("TestBrand", "SocialPower", "AAA", "NiCad", 4000L, true, "TestRoom");
-    private static final PowerItem testItem3 = new PowerItem("TestBrand", "SocialPower", "PP9", "NiCad", 4000L, true, "TestRoom");
+    private static PowerItem testItem1 = new PowerItem("TestBrand", "SocialPower", "AA", "NiCad", 4000L, true, "TestRoom");
+    private static PowerItem testItem2 = new PowerItem("TestBrand", "SocialPower", "AAA", "NiCad", 4000L, true, "TestRoom");
+    private static PowerItem testItem3 = new PowerItem("TestBrand", "SocialPower", "PP9", "NiCad", 4000L, true, "TestRoom");
 
     @BeforeEach
     void setUp() {
+        testItem1.setId(1L);
+        testItem2.setId(2L);
+        testItem3.setId(3L);
+
         Mockito.when(powerRepo.findByBrand(testItem1.getBrand()))
                 .thenReturn(Lists.newArrayList(testItem1));
 
@@ -46,6 +50,9 @@ class PowerServiceTests {
 
         Mockito.when(powerRepo.findById(2L)).
                 thenReturn(Optional.of(testItem2));
+
+        Mockito.when(powerRepo.findAll()).
+                thenReturn(Arrays.asList(testItem1, testItem2, testItem3));
     }
 
     @Test
@@ -59,6 +66,16 @@ class PowerServiceTests {
     void getMissingValue() {
         List<PowerItem> results = powerService.getBrand("MissingBrand");
         assertThat(results).isEmpty();
+    }
+
+    @Test
+    void getAllItems() {
+        Iterable<PowerItem> resultsIt = powerService.getAllItems();
+        List<PowerItem> resultList = new ArrayList<>();
+        resultsIt.forEach(
+                (result) -> resultList.add(result)
+        );
+        assertEquals(resultList, Arrays.asList(testItem1,testItem2, testItem3));
     }
 
     @Test

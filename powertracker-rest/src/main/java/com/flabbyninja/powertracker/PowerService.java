@@ -21,9 +21,17 @@ public class PowerService {
     @GetMapping("/item/{itemId}")
     public PowerItem getItem(@PathVariable(value = "itemId") Long itemId) {
         LOGGER.debug("About to request details of power item with id: " + itemId);
-        Optional<PowerItem> returnValue = powerRepo.findById(4L);
+        Optional<PowerItem> returnValue = powerRepo.findById(itemId);
         LOGGER.debug("Retrieved item successfully: " + returnValue);
         return null;
+    }
+
+    @GetMapping("/item")
+    public Iterable<PowerItem> getAllItems() {
+        LOGGER.debug("About to request details of all items");
+        Iterable<PowerItem> returnValue = powerRepo.findAll();
+        LOGGER.debug("Retrieved items successfully: " + returnValue);
+        return returnValue;
     }
 
     @GetMapping("/brand/{brandName}")
