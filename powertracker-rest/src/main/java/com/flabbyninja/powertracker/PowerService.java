@@ -19,7 +19,7 @@ public class PowerService {
     }
 
     @GetMapping("/item/{itemId}")
-    public PowerItem getItem(@PathVariable(value="itemId") Long itemId) {
+    public PowerItem getItem(@PathVariable(value = "itemId") Long itemId) {
         LOGGER.debug("About to request details of power item with id: " + itemId);
         Optional<PowerItem> returnValue = powerRepo.findById(4L);
         LOGGER.debug("Retrieved item successfully: " + returnValue);
@@ -27,7 +27,7 @@ public class PowerService {
     }
 
     @GetMapping("/brand/{brandName}")
-    public List<PowerItem> getBrand(@PathVariable(value="brandName") String brandName) {
+    public List<PowerItem> getBrand(@PathVariable(value = "brandName") String brandName) {
         LOGGER.debug("About to lookup by brand: " + brandName);
         List<PowerItem> returnedItems = powerRepo.findByBrand(brandName);
         LOGGER.debug("Service returned " + returnedItems.size() + " items.");
@@ -39,9 +39,16 @@ public class PowerService {
         return powerRepo.countEntities();
     }
 
-    @RequestMapping("/allocate")
-    public void allocate() {
-
+    @RequestMapping("/allocate/{powerSize}")
+    public PowerItem allocateByPowerSize(@PathVariable(value = "powerSize") String powerSize)
+            throws NoItemsAvailableException {
+        long allocatedId = powerRepo.getFirstAvailableByPowerSize(powerSize);
+        if (allocatedId <= 0) {
+            throw new NoItemsAvailableException("No available power items of size " + powerSize);
+        }
+        PowerItem targetItem = powerRepo.findById(allocatedId).get();
+        targetItem.setAvailable(false);
+        return powerRepo.save(targetItem);
     }
 
     @RequestMapping("/deallocate")

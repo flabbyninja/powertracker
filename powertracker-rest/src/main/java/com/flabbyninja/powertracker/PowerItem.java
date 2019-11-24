@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Getter
+@Setter
 @ToString
 @Entity
 public class PowerItem {
