@@ -19,11 +19,11 @@ public class PowerService {
     }
 
     @GetMapping("/item/{itemId}")
-    public PowerItem getItem(@PathVariable(value = "itemId") Long itemId) {
+    public Optional<PowerItem> getItem(@PathVariable(value = "itemId") Long itemId) {
         LOGGER.debug("About to request details of power item with id: " + itemId);
-        Optional<PowerItem> returnValue = powerRepo.findById(itemId);
-        LOGGER.debug("Retrieved item successfully: " + returnValue);
-        return null;
+        Optional<PowerItem> item = powerRepo.findById(itemId);
+        LOGGER.debug("Retrieved item successfully: " + item);
+        return item;
     }
 
     @GetMapping("/item")

@@ -56,35 +56,45 @@ class PowerServiceTests {
     }
 
     @Test
-    void getExistingValue() {
+    void when_item_found_then_item_returned() {
+        assertThat(powerService.getItem(2L)).isEqualTo(Optional.of(testItem2));
+    }
+
+    @Test
+    void when_item_not_found_then_empty_optional() {
+        assertThat(powerService.getItem(762L).isPresent()).isFalse();
+    }
+
+    @Test
+    void when_brand_found_then_list_of_all_returned() {
         List<PowerItem> results = powerService.getBrand("TestBrand");
         assertThat(results).size().isEqualTo(1);
         assertThat(results.get(0).getBrand()).isEqualTo("TestBrand");
     }
 
     @Test
-    void getMissingValue() {
+    void when_brand_not_found_then_empty_list() {
         List<PowerItem> results = powerService.getBrand("MissingBrand");
         assertThat(results).isEmpty();
     }
 
     @Test
-    void getAllItems() {
+    void when_all_items_returned_then_all_present() {
         Iterable<PowerItem> resultsIt = powerService.getAllItems();
         List<PowerItem> resultList = new ArrayList<>();
         resultsIt.forEach(
                 (result) -> resultList.add(result)
         );
-        assertEquals(resultList, Arrays.asList(testItem1,testItem2, testItem3));
+        assertThat(resultList).isEqualTo(Arrays.asList(testItem1, testItem2, testItem3));
     }
 
     @Test
-    void checkStock() {
+    void when_stock_checked_then_correct_total() {
         assertThat(powerService.checkStock()).isEqualTo(3);
     }
 
     @Test
-    void when_available_allocate() {
+    void when_available_allocate_and_set_unavailable() {
         String desiredPowerSize = "AAA";
 
         PowerItem reservedItem = new PowerItem(testItem2.getBrand(), testItem2.getModel(), testItem2.getPowerSize(), testItem2.getPowerType(), testItem2.getCapacity(), false, testItem2.getLocation());
@@ -101,7 +111,7 @@ class PowerServiceTests {
     }
 
     @Test
-    void when_unavailable_allocate() {
+    void when_unavailable_allocate_then_return_exception() {
         assertThrows(NoItemsAvailableException.class, () -> {
             PowerItem allocated = powerService.allocateByPowerSize("QQVQ");
         });
