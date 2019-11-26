@@ -1,9 +1,10 @@
 package com.flabbyninja.powertracker.integration;
 
 import com.flabbyninja.powertracker.api.PowerService;
-import com.flabbyninja.powertracker.exception.NoItemsAvailableException;
 import com.flabbyninja.powertracker.jparepositories.PowerItemRepository;
 import com.flabbyninja.powertracker.model.PowerItem;
+import com.flabbyninja.powertracker.model.PowerResponse;
+import com.flabbyninja.powertracker.model.PowerSuccessResponse;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class PowerServiceTests {
@@ -46,9 +46,6 @@ class PowerServiceTests {
         Mockito.when(powerRepo.findByBrand(testItem1.getBrand()))
                 .thenReturn(Lists.newArrayList(testItem1));
 
-        Mockito.when(powerRepo.countEntities())
-                .thenReturn(3);
-
         Mockito.when(powerRepo.getByPowerSizeAndAvailability("AAA", true))
                 .thenReturn(2L);
 
@@ -60,74 +57,70 @@ class PowerServiceTests {
     }
 
     @Test
-    void when_item_found_then_item_returned() {
-        assertThat(powerService.getItem(2L)).isEqualTo(Optional.of(testItem2));
+    void get_item_when_item_found_then_success_and_item_returned() {
+        List<PowerItem> expectedBody = new ArrayList<>();
+        expectedBody.add(testItem2);
+        PowerResponse expectedResponse = PowerSuccessResponse.builder().responseCode("Success").body(expectedBody).build();
+        assertThat(powerService.getItem(2L)).isEqualTo(expectedResponse);
     }
 
     @Test
-    void when_item_not_found_then_empty_optional() {
-        assertThat(powerService.getItem(762L).isPresent()).isFalse();
+    void get_item_when_item_not_found_then_failure_and_empty_list() {
+        PowerResponse response = powerService.getItem(762L);
+        assertThat(response.getResponseCode()).isEqualTo("Error");
+        assertThat(response.getBody()).isEmpty();
     }
 
     @Test
-    void when_brand_found_then_list_of_all_returned() {
-        List<PowerItem> results = powerService.getBrand("TestBrand");
-        assertThat(results).size().isEqualTo(1);
-        assertThat(results.get(0).getBrand()).isEqualTo("TestBrand");
+    void get_brand_when_brand_found_then_success_and_list_of_all_returned() {
+        List<PowerItem> expectedBody = new ArrayList<>();
+        expectedBody.add(testItem1);
+        PowerResponse expectedResponse = PowerSuccessResponse.builder().responseCode("Success").body(expectedBody).build();
+        assertThat(powerService.getBrand("TestBrand")).isEqualTo(expectedResponse);
     }
 
     @Test
-    void when_brand_not_found_then_empty_list() {
-        List<PowerItem> results = powerService.getBrand("MissingBrand");
-        assertThat(results).isEmpty();
+    void get_brand_when_brand_not_found_then_success_and_empty_list() {
+        PowerResponse response = powerService.getBrand("MissingBrand");
+        assertThat(response.getResponseCode()).isEqualTo("Success");
+        assertThat(response.getBody()).isEmpty();
     }
 
     @Test
-    void when_all_items_returned_then_all_present() {
-        Iterable<PowerItem> resultsIt = powerService.getAllItems();
-        List<PowerItem> resultList = new ArrayList<>();
-        resultsIt.forEach(
-                resultList::add
-        );
-        assertThat(resultList).isEqualTo(Arrays.asList(testItem1, testItem2, testItem3));
+    void get_all_items_then_all_present() {
+        PowerResponse result = powerService.getAllItems();
+        assertThat(result.getBody()).isEqualTo(Arrays.asList(testItem1, testItem2, testItem3));
     }
 
     @Test
-    void when_stock_checked_then_correct_total() {
-        assertThat(powerService.checkStock()).isEqualTo(3);
-    }
-
-    @Test
-    void when_available_allocate_and_set_unavailable() {
+    void allocate_when_available_set_unavailable() {
         String desiredPowerSize = "AAA";
-
         PowerItem reservedItem = new PowerItem(testItem2.getBrand(), testItem2.getModel(), testItem2.getPowerSize(), testItem2.getPowerType(), testItem2.getCapacity(), false, testItem2.getLocation());
         Mockito.when(powerRepo.save(Mockito.any(PowerItem.class)))
                 .thenReturn(reservedItem);
 
-        try {
-            PowerItem allocated = powerService.allocateByPowerSize(desiredPowerSize);
-            assertThat(allocated.getPowerSize()).isEqualTo(desiredPowerSize);
-            assertThat(allocated.isAvailable()).isFalse();
-        } catch (NoItemsAvailableException nie) {
-            fail("No Items available - test has failed");
-        }
+        PowerResponse allocated = powerService.allocateByPowerSize(desiredPowerSize);
+        assertThat(allocated.getBody()).hasSize(1);
+        assertThat(allocated.getBody().get(0).getPowerSize()).isEqualTo(desiredPowerSize);
+        assertThat(allocated.getBody().get(0).isAvailable()).isFalse();
+
     }
 
     @Test
-    void when_unavailable_allocate_then_return_exception() {
-        assertThrows(NoItemsAvailableException.class, () -> {
-            PowerItem allocated = powerService.allocateByPowerSize("QQVQ");
-        });
+    void allocate_when_unavailable_return_error() {
+        String missingPowerSize = "QQVQ";
+        PowerResponse not_allocated = powerService.allocateByPowerSize(missingPowerSize);
+        assertThat(not_allocated.getResponseCode()).isEqualTo("Error");
+        assertThat(not_allocated.getErrorMessage()).isEqualTo("Could not allocate item of power size: " + missingPowerSize);
     }
 
     @Test
-    void when_allocated_deallocate_and_set_available() {
+    void deallocate_when_allocated_set_available() {
         fail("Not implemented");
     }
 
     @Test
-    void when_none_allocated_then_return_exception() {
+    void deallocate_when_none_allocated_then_return_exception() {
         fail("Not implemented");
     }
 }
