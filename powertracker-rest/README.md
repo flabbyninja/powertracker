@@ -1,6 +1,6 @@
 # PowerTracker RESTful API
 
-Spring Boot application, serving API's using SpringMVC and backed by a JPA repository.
+Provides the back-end support for the UI, keeping track of available power items and allocations. Implemented in Spring Boot, backed by a JPA repository.
 
 ## Supported API's
 
