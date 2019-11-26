@@ -1,12 +1,15 @@
 package com.flabbyninja.powertracker.api;
 
-import com.flabbyninja.powertracker.service.PropertyService;
 import com.flabbyninja.powertracker.exception.NoItemsAvailableException;
 import com.flabbyninja.powertracker.jparepositories.PowerItemRepository;
 import com.flabbyninja.powertracker.model.PowerItem;
+import com.flabbyninja.powertracker.service.PropertyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;

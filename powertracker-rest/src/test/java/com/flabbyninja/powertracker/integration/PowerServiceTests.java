@@ -1,9 +1,9 @@
 package com.flabbyninja.powertracker.integration;
 
-import com.flabbyninja.powertracker.exception.NoItemsAvailableException;
-import com.flabbyninja.powertracker.model.PowerItem;
-import com.flabbyninja.powertracker.jparepositories.PowerItemRepository;
 import com.flabbyninja.powertracker.api.PowerService;
+import com.flabbyninja.powertracker.exception.NoItemsAvailableException;
+import com.flabbyninja.powertracker.jparepositories.PowerItemRepository;
+import com.flabbyninja.powertracker.model.PowerItem;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
