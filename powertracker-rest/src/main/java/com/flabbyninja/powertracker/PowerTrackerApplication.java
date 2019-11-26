@@ -14,8 +14,11 @@ public class PowerTrackerApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PowerTrackerApplication.class);
 
-    @Autowired
-    private PowerItemRepository powerRepo;
+    private final PowerItemRepository powerRepo;
+
+    public PowerTrackerApplication(PowerItemRepository powerRepo) {
+        this.powerRepo = powerRepo;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(PowerTrackerApplication.class, args);

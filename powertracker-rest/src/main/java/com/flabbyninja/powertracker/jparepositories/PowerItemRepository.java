@@ -17,4 +17,4 @@ public interface PowerItemRepository extends CrudRepository<PowerItem, Long> {
     @Query(value = "select MIN(id) from power_item where power_size=:power_size and available=:available", nativeQuery = true)
     long getByPowerSizeAndAvailability(@Param("power_size") String powerSize, boolean available);
 
-};
+}

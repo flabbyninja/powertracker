@@ -31,10 +31,10 @@ class PowerServiceTests {
     private PowerItemRepository powerRepo;
 
     // Reference test values
-    private static PowerItem testItem1 = new PowerItem("TestBrand", "SocialPower", "AA", "NiCad", 4000L, true, "TestRoom");
-    private static PowerItem testItem2 = new PowerItem("TestBrand", "SocialPower", "AAA", "NiCad", 4000L, true, "TestRoom");
-    private static PowerItem testItem3 = new PowerItem("TestBrand", "SocialPower", "PP9", "NiCad", 4000L, true, "TestRoom");
-    private static PowerItem testItem4 = new PowerItem("TestBrand", "SocialPower", "AAA", "NiCad", 4000L, true, "TestRoom");
+    private static final PowerItem testItem1 = new PowerItem("TestBrand", "SocialPower", "AA", "NiCad", 4000L, true, "TestRoom");
+    private static final PowerItem testItem2 = new PowerItem("TestBrand", "SocialPower", "AAA", "NiCad", 4000L, true, "TestRoom");
+    private static final PowerItem testItem3 = new PowerItem("TestBrand", "SocialPower", "PP9", "NiCad", 4000L, true, "TestRoom");
+    private static final PowerItem testItem4 = new PowerItem("TestBrand", "SocialPower", "AAA", "NiCad", 4000L, true, "TestRoom");
 
     @BeforeEach
     void setUp() {
@@ -87,7 +87,7 @@ class PowerServiceTests {
         Iterable<PowerItem> resultsIt = powerService.getAllItems();
         List<PowerItem> resultList = new ArrayList<>();
         resultsIt.forEach(
-                (result) -> resultList.add(result)
+                resultList::add
         );
         assertThat(resultList).isEqualTo(Arrays.asList(testItem1, testItem2, testItem3));
     }

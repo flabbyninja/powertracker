@@ -38,12 +38,12 @@ class PowerTrackerRepoTests {
 
     @Test
     void findAll() {
-        powerRepo.findAll().forEach(x -> System.out.println(x));
+        powerRepo.findAll().forEach(System.out::println);
     }
 
     @Test
     void findByBrand() {
-        powerRepo.findByBrand("Worzel").forEach(x -> System.out.println(x));
+        powerRepo.findByBrand("Worzel").forEach(System.out::println);
     }
 
     @Test
