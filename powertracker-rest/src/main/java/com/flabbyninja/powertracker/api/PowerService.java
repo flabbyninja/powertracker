@@ -1,5 +1,9 @@
-package com.flabbyninja.powertracker;
+package com.flabbyninja.powertracker.api;
 
+import com.flabbyninja.powertracker.service.PropertyService;
+import com.flabbyninja.powertracker.exception.NoItemsAvailableException;
+import com.flabbyninja.powertracker.jparepositories.PowerItemRepository;
+import com.flabbyninja.powertracker.model.PowerItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -59,8 +63,8 @@ public class PowerService {
         return powerRepo.save(targetItem);
     }
 
-    @RequestMapping("/deallocate")
-    public void deallocate() {
-
+    @RequestMapping("/deallocate{powerSize}")
+    public PowerItem deallocateByPowerSize(@PathVariable(value = "powerSize") String powerSize) {
+        return null;
     }
 }

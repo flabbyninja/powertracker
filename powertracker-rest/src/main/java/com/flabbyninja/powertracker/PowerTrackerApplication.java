@@ -1,5 +1,6 @@
 package com.flabbyninja.powertracker;
 
+import com.flabbyninja.powertracker.jparepositories.PowerItemRepository;
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

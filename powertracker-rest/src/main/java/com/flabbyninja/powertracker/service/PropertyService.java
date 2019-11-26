@@ -1,4 +1,4 @@
-package com.flabbyninja.powertracker;
+package com.flabbyninja.powertracker.service;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

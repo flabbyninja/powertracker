@@ -1,4 +1,4 @@
-package com.flabbyninja.powertracker;
+package com.flabbyninja.powertracker.exception;
 
 public class NoItemsAvailableException extends Exception {
     public NoItemsAvailableException() {

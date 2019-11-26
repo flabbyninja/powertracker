@@ -1,7 +1,7 @@
 package com.flabbyninja.powertracker.integration;
 
-import com.flabbyninja.powertracker.PowerService;
-import com.flabbyninja.powertracker.PropertyService;
+import com.flabbyninja.powertracker.api.PowerService;
+import com.flabbyninja.powertracker.service.PropertyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

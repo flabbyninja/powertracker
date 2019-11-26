@@ -1,10 +1,9 @@
 package com.flabbyninja.powertracker.integration;
 
-import com.flabbyninja.powertracker.NoItemsAvailableException;
-import com.flabbyninja.powertracker.PowerItem;
-import com.flabbyninja.powertracker.PowerItemRepository;
-import com.flabbyninja.powertracker.PowerService;
-import javafx.scene.transform.NonInvertibleTransformException;
+import com.flabbyninja.powertracker.exception.NoItemsAvailableException;
+import com.flabbyninja.powertracker.model.PowerItem;
+import com.flabbyninja.powertracker.jparepositories.PowerItemRepository;
+import com.flabbyninja.powertracker.api.PowerService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,10 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
@@ -118,8 +120,12 @@ class PowerServiceTests {
     }
 
     @Test
-    void deallocate() {
+    void when_allocated_deallocate_and_set_available() {
         fail("Not implemented");
     }
 
+    @Test
+    void when_none_allocated_then_return_exception() {
+        fail("Not implemented");
+    }
 }
