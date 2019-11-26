@@ -34,12 +34,14 @@ class PowerServiceTests {
     private static PowerItem testItem1 = new PowerItem("TestBrand", "SocialPower", "AA", "NiCad", 4000L, true, "TestRoom");
     private static PowerItem testItem2 = new PowerItem("TestBrand", "SocialPower", "AAA", "NiCad", 4000L, true, "TestRoom");
     private static PowerItem testItem3 = new PowerItem("TestBrand", "SocialPower", "PP9", "NiCad", 4000L, true, "TestRoom");
+    private static PowerItem testItem4 = new PowerItem("TestBrand", "SocialPower", "AAA", "NiCad", 4000L, true, "TestRoom");
 
     @BeforeEach
     void setUp() {
         testItem1.setId(1L);
         testItem2.setId(2L);
         testItem3.setId(3L);
+        testItem4.setId(4L);
 
         Mockito.when(powerRepo.findByBrand(testItem1.getBrand()))
                 .thenReturn(Lists.newArrayList(testItem1));
@@ -47,7 +49,7 @@ class PowerServiceTests {
         Mockito.when(powerRepo.countEntities())
                 .thenReturn(3);
 
-        Mockito.when(powerRepo.getFirstAvailableByPowerSize("AAA"))
+        Mockito.when(powerRepo.getByPowerSizeAndAvailability("AAA", true))
                 .thenReturn(2L);
 
         Mockito.when(powerRepo.findById(2L)).

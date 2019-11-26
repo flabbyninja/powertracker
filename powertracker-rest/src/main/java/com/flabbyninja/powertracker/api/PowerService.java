@@ -54,7 +54,7 @@ public class PowerService {
     @RequestMapping("/allocate/{powerSize}")
     public PowerItem allocateByPowerSize(@PathVariable(value = "powerSize") String powerSize)
             throws NoItemsAvailableException {
-        long allocatedId = powerRepo.getFirstAvailableByPowerSize(powerSize);
+        long allocatedId = powerRepo.getByPowerSizeAndAvailability(powerSize, true);
         if (allocatedId <= 0) {
             throw new NoItemsAvailableException("No available power items of size " + powerSize);
         }
@@ -65,6 +65,7 @@ public class PowerService {
 
     @RequestMapping("/deallocate{powerSize}")
     public PowerItem deallocateByPowerSize(@PathVariable(value = "powerSize") String powerSize) {
+        long returnedItem = powerRepo.getByPowerSizeAndAvailability(powerSize, false);
         return null;
     }
 }

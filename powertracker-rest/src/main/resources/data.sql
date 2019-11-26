@@ -17,5 +17,5 @@ INSERT INTO power_item (brand, model, power_size, power_type, capacity, availabl
     ('Duracell', 'Energiser',  'AA', 'Ni-Cd', '2500', TRUE, 'Battery Box'),
     ('Rayovac', 'Hybrio',  'AA', 'Hybrid', '2200', TRUE, 'Battery Box'),
     ('Rayovac', 'Hybrio',  'AA', 'Hybrid', '2200', FALSE, 'Toy Car'),
-    ('Rayovac', 'Hybrio',  'AA', 'Hybrid', '2200', FALSE, 'Toy Car'),
+    ('Rayovac', 'Hybrio',  'AAA', 'Hybrid', '1500', FALSE, 'Toy Car'),
     ('Panasonic', 'LongLife',  'AAA', 'Hybrid', '1500', TRUE, 'Battery Box');

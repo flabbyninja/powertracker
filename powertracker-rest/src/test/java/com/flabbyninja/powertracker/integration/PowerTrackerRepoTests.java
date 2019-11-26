@@ -45,4 +45,11 @@ class PowerTrackerRepoTests {
     void findByBrand() {
         powerRepo.findByBrand("Worzel").forEach(x -> System.out.println(x));
     }
+
+    @Test
+    void getByPowerSizeAndAvailability() {
+
+        assertThat(powerRepo.getByPowerSizeAndAvailability("AAA", true)).isEqualTo(5L);
+        assertThat(powerRepo.getByPowerSizeAndAvailability("AAA", false)).isEqualTo(4L);
+    }
 }
