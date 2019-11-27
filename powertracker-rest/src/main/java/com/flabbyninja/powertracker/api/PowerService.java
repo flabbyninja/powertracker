@@ -1,6 +1,5 @@
 package com.flabbyninja.powertracker.api;
 
-import com.flabbyninja.powertracker.exception.NoItemsAvailableException;
 import com.flabbyninja.powertracker.jparepositories.PowerItemRepository;
 import com.flabbyninja.powertracker.model.PowerErrorResponse;
 import com.flabbyninja.powertracker.model.PowerItem;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,10 +38,10 @@ public class PowerService {
             List<PowerItem> itemList = new ArrayList<PowerItem>();
             itemList.add(item.get());
             LOGGER.info("Data found for item... building PowerSuccessResponse");
-            response = PowerSuccessResponse.builder().responseCode("Success").body(itemList).build();
+            response = PowerSuccessResponse.builder().statusCode("Success").body(itemList).build();
         } else {
             LOGGER.info("Item with id: " + itemId + " does not exist... building PowerErrorResponse");
-            response = PowerErrorResponse.builder().responseCode("Error").errorMessage("No item exists with id: " + itemId).build();
+            response = PowerErrorResponse.builder().statusCode("Error").errorMessage("No item exists with id: " + itemId).build();
         }
         return response;
     }
@@ -57,7 +55,7 @@ public class PowerService {
         List<PowerItem> itemList = new ArrayList<>();
         returnValue.forEach(itemList::add);
         LOGGER.debug("Building PowerSuccessResponse");
-        response = PowerSuccessResponse.builder().responseCode("Success").body(itemList).build();
+        response = PowerSuccessResponse.builder().statusCode("Success").body(itemList).build();
         return response;
     }
 
@@ -68,7 +66,7 @@ public class PowerService {
         List<PowerItem> returnedItems = powerRepo.findByBrand(brandName);
         LOGGER.debug("Service returned " + returnedItems.size() + " items.");
         LOGGER.debug("Building PowerSuccessResponse");
-        response = PowerSuccessResponse.builder().responseCode("Success").body(returnedItems).build();
+        response = PowerSuccessResponse.builder().statusCode("Success").body(returnedItems).build();
         return response;
     }
 
@@ -78,13 +76,13 @@ public class PowerService {
         long allocatedId = powerRepo.getByPowerSizeAndAvailability(powerSize, true);
         Optional<PowerItem> targetOptional = powerRepo.findById(allocatedId);
         if ((allocatedId <= 0) || (!targetOptional.isPresent())) {
-            response = PowerErrorResponse.builder().responseCode("Error").errorMessage("Could not allocate item of power size: " + powerSize).build();
+            response = PowerErrorResponse.builder().statusCode("Error").errorMessage("Could not allocate item of power size: " + powerSize).build();
         } else {
             PowerItem targetItem = targetOptional.get();
             targetItem.setAvailable(false);
             List<PowerItem> itemList = new ArrayList<>();
             itemList.add(powerRepo.save(targetItem));
-            response = PowerSuccessResponse.builder().responseCode("Success").body(itemList).build();
+            response = PowerSuccessResponse.builder().statusCode("Success").body(itemList).build();
         }
         return response;
     }

@@ -60,14 +60,14 @@ class PowerServiceTests {
     void get_item_when_item_found_then_success_and_item_returned() {
         List<PowerItem> expectedBody = new ArrayList<>();
         expectedBody.add(testItem2);
-        PowerResponse expectedResponse = PowerSuccessResponse.builder().responseCode("Success").body(expectedBody).build();
+        PowerResponse expectedResponse = PowerSuccessResponse.builder().statusCode("Success").body(expectedBody).build();
         assertThat(powerService.getItem(2L)).isEqualTo(expectedResponse);
     }
 
     @Test
     void get_item_when_item_not_found_then_failure_and_empty_list() {
         PowerResponse response = powerService.getItem(762L);
-        assertThat(response.getResponseCode()).isEqualTo("Error");
+        assertThat(response.getStatusCode()).isEqualTo("Error");
         assertThat(response.getBody()).isEmpty();
     }
 
@@ -75,14 +75,14 @@ class PowerServiceTests {
     void get_brand_when_brand_found_then_success_and_list_of_all_returned() {
         List<PowerItem> expectedBody = new ArrayList<>();
         expectedBody.add(testItem1);
-        PowerResponse expectedResponse = PowerSuccessResponse.builder().responseCode("Success").body(expectedBody).build();
+        PowerResponse expectedResponse = PowerSuccessResponse.builder().statusCode("Success").body(expectedBody).build();
         assertThat(powerService.getBrand("TestBrand")).isEqualTo(expectedResponse);
     }
 
     @Test
     void get_brand_when_brand_not_found_then_success_and_empty_list() {
         PowerResponse response = powerService.getBrand("MissingBrand");
-        assertThat(response.getResponseCode()).isEqualTo("Success");
+        assertThat(response.getStatusCode()).isEqualTo("Success");
         assertThat(response.getBody()).isEmpty();
     }
 
@@ -110,17 +110,17 @@ class PowerServiceTests {
     void allocate_when_unavailable_return_error() {
         String missingPowerSize = "QQVQ";
         PowerResponse not_allocated = powerService.allocateByPowerSize(missingPowerSize);
-        assertThat(not_allocated.getResponseCode()).isEqualTo("Error");
+        assertThat(not_allocated.getStatusCode()).isEqualTo("Error");
         assertThat(not_allocated.getErrorMessage()).isEqualTo("Could not allocate item of power size: " + missingPowerSize);
     }
 
     @Test
     void deallocate_when_allocated_set_available() {
-        fail("Not implemented");
+        fail("Not implemented yet");
     }
 
     @Test
-    void deallocate_when_none_allocated_then_return_exception() {
-        fail("Not implemented");
+    void deallocate_when_not_allocated_then_return_exception() {
+        fail("Not implemented yet");
     }
 }

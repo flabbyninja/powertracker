@@ -2,18 +2,17 @@ package com.flabbyninja.powertracker.model;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class PowerSuccessResponse extends PowerResponse {
 
-    List<PowerItem> body = new ArrayList<>();
-
     @Builder
-    public PowerSuccessResponse(String responseCode, List<PowerItem> body) {
-        super(responseCode);
-        this.body = body;
+    public PowerSuccessResponse(String statusCode, List<PowerItem> body) {
+        super(statusCode);
+        this.setBody(body);
     }
 }

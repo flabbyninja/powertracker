@@ -1,20 +1,22 @@
 package com.flabbyninja.powertracker.model;
 
-import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
+@EqualsAndHashCode
 abstract public class PowerResponse {
-    private String responseCode;
-
+    private String statusCode;
     private List<PowerItem> body;
     private String errorMessage;
 
-    public PowerResponse(String responseCode) {
-        this.responseCode = responseCode;
+    public PowerResponse(String statusCode) {
+        this.statusCode = statusCode;
         this.body = new ArrayList<>();
         this.errorMessage = "";
     }
