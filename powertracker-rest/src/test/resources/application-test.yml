@@ -20,7 +20,7 @@ logging:
 
 credentials:
   clear: test_clear_value
-  enc: ENC(j/fgvUFXFvpftC5t3iPK6ERUGxv0QppUZNjktxXgP5I=)
+  enc: ENC(V50+HaSqAGu4HNhU7896Yk4XZspJPbeXQPNaBk3rQ/Y=)
 
 jasypt:
   encryptor:
