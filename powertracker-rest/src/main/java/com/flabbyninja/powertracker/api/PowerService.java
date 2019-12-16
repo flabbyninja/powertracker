@@ -35,7 +35,7 @@ public class PowerService {
         Optional<PowerItem> item = powerRepo.findById(itemId);
         LOGGER.debug("Retrieved item: " + item);
         if (item.isPresent()) {
-            List<PowerItem> itemList = new ArrayList<PowerItem>();
+            List<PowerItem> itemList = new ArrayList<>();
             itemList.add(item.get());
             LOGGER.info("Data found for item... building PowerSuccessResponse");
             response = PowerSuccessResponse.builder().statusCode("Success").body(itemList).build();
@@ -80,7 +80,7 @@ public class PowerService {
         return allocateOrDeallocate(powerSize, false, "release");
     }
 
-    private PowerResponse allocateOrDeallocate(@PathVariable("powerSize") String powerSize, boolean isReserved, String operation) {
+    private PowerResponse allocateOrDeallocate(String powerSize, boolean isReserved, String operation) {
         PowerResponse response;
         long allocatedId = powerRepo.getByPowerSizeAndAvailability(powerSize, isReserved);
         Optional<PowerItem> targetOptional = powerRepo.findById(allocatedId);

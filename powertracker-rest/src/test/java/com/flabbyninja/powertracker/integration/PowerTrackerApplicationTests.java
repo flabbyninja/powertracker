@@ -18,10 +18,6 @@ class PowerTrackerApplicationTests {
     private PowerService powerService;
 
     @Test
-    void contextLoads() {
-    }
-
-    @Test
     void validateClearProperty() {
         assertThat(propService.getProperty()).isEqualTo("test_clear_value");
     }

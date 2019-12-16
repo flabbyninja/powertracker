@@ -13,10 +13,7 @@ public class PowerTrackerApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PowerTrackerApplication.class);
 
-    private final PowerItemRepository powerRepo;
-
     public PowerTrackerApplication(PowerItemRepository powerRepo) {
-        this.powerRepo = powerRepo;
     }
 
     public static void main(String[] args) {
