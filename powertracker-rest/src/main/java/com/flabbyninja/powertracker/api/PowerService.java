@@ -72,31 +72,23 @@ public class PowerService {
 
     @RequestMapping("/allocate/{powerSize}")
     public PowerResponse allocateByPowerSize(@PathVariable(value = "powerSize") String powerSize) {
-        PowerResponse response;
-        long allocatedId = powerRepo.getByPowerSizeAndAvailability(powerSize, true);
-        Optional<PowerItem> targetOptional = powerRepo.findById(allocatedId);
-        if ((allocatedId <= 0) || (!targetOptional.isPresent())) {
-            response = PowerErrorResponse.builder().statusCode("Error").errorMessage("Could not allocate item of power size: " + powerSize).build();
-        } else {
-            PowerItem targetItem = targetOptional.get();
-            targetItem.setAvailable(false);
-            List<PowerItem> itemList = new ArrayList<>();
-            itemList.add(powerRepo.save(targetItem));
-            response = PowerSuccessResponse.builder().statusCode("Success").body(itemList).build();
-        }
-        return response;
+        return allocateOrDeallocate(powerSize, true, "allocate");
     }
 
     @RequestMapping("/deallocate/{powerSize}")
     public PowerResponse deallocateByPowerSize(@PathVariable(value = "powerSize") String powerSize) {
+        return allocateOrDeallocate(powerSize, false, "release");
+    }
+
+    private PowerResponse allocateOrDeallocate(@PathVariable("powerSize") String powerSize, boolean isReserved, String operation) {
         PowerResponse response;
-        long allocatedId = powerRepo.getByPowerSizeAndAvailability(powerSize, false);
+        long allocatedId = powerRepo.getByPowerSizeAndAvailability(powerSize, isReserved);
         Optional<PowerItem> targetOptional = powerRepo.findById(allocatedId);
         if ((allocatedId <= 0) || (!targetOptional.isPresent())) {
-            response = PowerErrorResponse.builder().statusCode("Error").errorMessage("Could not release item of power size: " + powerSize).build();
+            response = PowerErrorResponse.builder().statusCode("Error").errorMessage("Could not " + operation + " item of power size: " + powerSize).build();
         } else {
             PowerItem targetItem = targetOptional.get();
-            targetItem.setAvailable(true);
+            targetItem.setAvailable(!isReserved);
             List<PowerItem> itemList = new ArrayList<>();
             itemList.add(powerRepo.save(targetItem));
             response = PowerSuccessResponse.builder().statusCode("Success").body(itemList).build();
