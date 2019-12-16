@@ -35,6 +35,7 @@ class PowerServiceTests {
     private static final PowerItem testItem2 = new PowerItem("TestBrand", "SocialPower", "AAA", "NiCad", 4000L, true, "TestRoom");
     private static final PowerItem testItem3 = new PowerItem("TestBrand", "SocialPower", "PP9", "NiCad", 4000L, true, "TestRoom");
     private static final PowerItem testItem4 = new PowerItem("TestBrand", "SocialPower", "AAA", "NiCad", 4000L, true, "TestRoom");
+    private static final PowerItem testItem5 = new PowerItem("TestBrand", "SocialPower", "AAA", "NiCad", 4000L, false, "TestRoom");
 
     @BeforeEach
     void setUp() {
@@ -42,6 +43,7 @@ class PowerServiceTests {
         testItem2.setId(2L);
         testItem3.setId(3L);
         testItem4.setId(4L);
+        testItem5.setId(5L);
 
         Mockito.when(powerRepo.findByBrand(testItem1.getBrand()))
                 .thenReturn(Lists.newArrayList(testItem1));
@@ -49,11 +51,17 @@ class PowerServiceTests {
         Mockito.when(powerRepo.getByPowerSizeAndAvailability("AAA", true))
                 .thenReturn(2L);
 
+        Mockito.when(powerRepo.getByPowerSizeAndAvailability("AAA", false))
+                .thenReturn(5L);
+
         Mockito.when(powerRepo.findById(2L)).
                 thenReturn(Optional.of(testItem2));
 
+        Mockito.when(powerRepo.findById(5L)).
+                thenReturn(Optional.of(testItem5));
+
         Mockito.when(powerRepo.findAll()).
-                thenReturn(Arrays.asList(testItem1, testItem2, testItem3));
+                thenReturn(Arrays.asList(testItem1, testItem2, testItem3, testItem4, testItem5));
     }
 
     @Test
@@ -89,7 +97,7 @@ class PowerServiceTests {
     @Test
     void get_all_items_then_all_present() {
         PowerResponse result = powerService.getAllItems();
-        assertThat(result.getBody()).isEqualTo(Arrays.asList(testItem1, testItem2, testItem3));
+        assertThat(result.getBody()).isEqualTo(Arrays.asList(testItem1, testItem2, testItem3, testItem4, testItem5));
     }
 
     @Test
@@ -116,11 +124,22 @@ class PowerServiceTests {
 
     @Test
     void deallocate_when_allocated_set_available() {
-        fail("Not implemented yet");
+        String desiredPowerSize = "AAA";
+        PowerItem releasedItem = new PowerItem(testItem5.getBrand(), testItem5.getModel(), testItem5.getPowerSize(), testItem5.getPowerType(), testItem5.getCapacity(), true, testItem5.getLocation());
+        Mockito.when(powerRepo.save(Mockito.any(PowerItem.class)))
+                .thenReturn(releasedItem);
+
+        PowerResponse released = powerService.deallocateByPowerSize(desiredPowerSize);
+        assertThat(released.getBody()).hasSize(1);
+        assertThat(released.getBody().get(0).getPowerSize()).isEqualTo(desiredPowerSize);
+        assertThat(released.getBody().get(0).isAvailable()).isTrue();
     }
 
     @Test
-    void deallocate_when_not_allocated_then_return_exception() {
-        fail("Not implemented yet");
+    void deallocate_when_not_allocated_then_return_error() {
+        String noneToReleaseSize = "QQVQ";
+        PowerResponse none_available = powerService.deallocateByPowerSize(noneToReleaseSize);
+        assertThat(none_available.getStatusCode()).isEqualTo("Error");
+        assertThat(none_available.getErrorMessage()).isEqualTo("Could not release item of power size: " + noneToReleaseSize);
     }
 }

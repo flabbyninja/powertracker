@@ -87,9 +87,20 @@ public class PowerService {
         return response;
     }
 
-    @RequestMapping("/deallocate{powerSize}")
-    public PowerItem deallocateByPowerSize(@PathVariable(value = "powerSize") String powerSize) {
-        long returnedItem = powerRepo.getByPowerSizeAndAvailability(powerSize, false);
-        return null;
+    @RequestMapping("/deallocate/{powerSize}")
+    public PowerResponse deallocateByPowerSize(@PathVariable(value = "powerSize") String powerSize) {
+        PowerResponse response;
+        long allocatedId = powerRepo.getByPowerSizeAndAvailability(powerSize, false);
+        Optional<PowerItem> targetOptional = powerRepo.findById(allocatedId);
+        if ((allocatedId <= 0) || (!targetOptional.isPresent())) {
+            response = PowerErrorResponse.builder().statusCode("Error").errorMessage("Could not release item of power size: " + powerSize).build();
+        } else {
+            PowerItem targetItem = targetOptional.get();
+            targetItem.setAvailable(true);
+            List<PowerItem> itemList = new ArrayList<>();
+            itemList.add(powerRepo.save(targetItem));
+            response = PowerSuccessResponse.builder().statusCode("Success").body(itemList).build();
+        }
+        return response;
     }
 }
