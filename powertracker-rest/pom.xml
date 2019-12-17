@@ -9,9 +9,9 @@
         <relativePath/>
     </parent>
     <groupId>com.flabbyninja</groupId>
-    <artifactId>powertracker</artifactId>
+    <artifactId>powertracker-rest</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>powertracker</name>
+    <name>powertracker-rest</name>
     <description>Track power usage</description>
 
     <properties>
