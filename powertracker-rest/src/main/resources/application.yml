@@ -11,3 +11,7 @@ logging:
 jasypt:
   encryptor:
     bean: encryptorBean
+
+server:
+  servlet:
+    context-path: /api
