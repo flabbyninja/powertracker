@@ -5,10 +5,14 @@ import com.flabbyninja.powertracker.service.PropertyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@ContextConfiguration( locations = {
+        "classpath:application-test.yml"
+})
 class PowerTrackerApplicationTests {
 
     @Autowired
