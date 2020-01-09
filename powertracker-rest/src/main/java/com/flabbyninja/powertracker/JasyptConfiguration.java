@@ -4,6 +4,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
+import org.jasypt.iv.RandomIvGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,21 +15,13 @@ import java.security.Security;
 @Configuration
 public class JasyptConfiguration {
 
-    private static String PASSWORD;
-
-    // Wire through value from config
-    @Value("${jasypt.encryptor.password}")
-    public void setPassword(String pass) {
-        PASSWORD = pass;
-    }
-
     @Bean(name="encryptorBean")
     @Primary
-    public static StringEncryptor stringEncryptor() {
+    public static StringEncryptor stringEncryptor(@Value("${jasypt.encryptor.password}") String password) {
         Security.addProvider(new BouncyCastleProvider());
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-        config.setPassword(PASSWORD);
+        config.setPassword(password);
         config.setAlgorithm("PBEWithMD5AndDES");
         config.setKeyObtentionIterations("1000");
         config.setPoolSize("1");
@@ -36,6 +29,7 @@ public class JasyptConfiguration {
         config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
         config.setStringOutputType("base64");
         encryptor.setConfig(config);
+        encryptor.setIvGenerator(new RandomIvGenerator());
         return encryptor;
     }
 }
