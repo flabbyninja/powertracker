@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "brand": "Duracell",
+        "model": "Energiser",
+        "powerSize": "AA",
+        "powerType": "Ni-Cd",
+        "capacity": 2500,
+        "available": true,
+        "location": "Battery Box"
+    },
+    {
+        "id": 2,
+        "brand": "Rayovac",
+        "model": "Hybrio",
+        "powerSize": "AA",
+        "powerType": "Hybrid",
+        "capacity": 2200,
+        "available": true,
+        "location": "Battery Box"
+    },
+    {
+        "id": 3,
+        "brand": "Rayovac",
+        "model": "Hybrio",
+        "powerSize": "AA",
+        "powerType": "Hybrid",
+        "capacity": 2200,
+        "available": false,
+        "location": "Toy Car"
+    },
+    {
+        "id": 4,
+        "brand": "Rayovac",
+        "model": "Hybrio",
+        "powerSize": "AAA",
+        "powerType": "Hybrid",
+        "capacity": 1500,
+        "available": false,
+        "location": "Toy Car"
+    },
+    {
+        "id": 5,
+        "brand": "Panasonic",
+        "model": "LongLife",
+        "powerSize": "AAA",
+        "powerType": "Hybrid",
+        "capacity": 1500,
+        "available": true,
+        "location": "Battery Box"
+    }
+]
