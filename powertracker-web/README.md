@@ -1,5 +1,28 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Debug Launch Config Chrome with VS Code in WSL
+
+This allows mapping for a specific setup. This has `node` and associated tools installed under WSL, and source code within the Windows File system and accessed over a symlink from WSL, allowing dev inside and outwith WSL.
+
+With VS Code running in WSL mode, code running with `npm start` in WSL and intending to debug app running in Chrome on Windows, the config below launches Chrome and allows controls of debugger from VS Code. The key part is the mapping of the source paths from WSL to Windows, allowing breakpoints to be set and code to be edited.   
+
+ ```
+ "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Chrome",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "/mnt/c/Users/flabbyninja/dev/powertracker/powertracker-web/*": "${workspaceFolder}/*"
+            }
+        }
+    ]
+
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -66,3 +89,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
